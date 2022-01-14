@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:chat_app_1/services/constant.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -32,4 +34,11 @@ Widget searchBar() {
       ],
     ),
   );
+}
+
+Color generateRandomColor3() {
+  Random random = Random();
+
+  return Color.fromARGB(
+      255, random.nextInt(256), random.nextInt(256), random.nextInt(256));
 }

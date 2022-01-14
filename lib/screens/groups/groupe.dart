@@ -1,9 +1,11 @@
 import 'dart:math';
 
 import 'package:chat_app_1/components/shared.dart';
+import 'package:chat_app_1/screens/messages/message_box.dart';
 import 'package:chat_app_1/services/constant.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_lorem/flutter_lorem.dart';
 import 'package:image_stack/image_stack.dart';
 
 class Groupe extends StatefulWidget {
@@ -15,10 +17,9 @@ class Groupe extends StatefulWidget {
 
 class _GroupeState extends State<Groupe> {
   List<String> images = <String>[
-    "https://images.unsplash.com/photo-1458071103673-6a6e4c4a3413?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80",
-    "https://images.unsplash.com/photo-1518806118471-f28b20a1d79d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=80",
-    "https://images.unsplash.com/photo-1470406852800-b97e5d92e2aa?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80",
-    "https://images.unsplash.com/photo-1473700216830-7e08d47f858e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
+    "assets/images/img1.jpg",
+    "assets/images/img2.jpg",
+    "assets/images/img3.jpg",
   ];
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,11 @@ class _GroupeState extends State<Groupe> {
           child: Padding(
         padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
         child: ListView(
-          children: [header(), searchBar(), groupeItemBuilder()],
+          children: [
+            header(),
+            searchBar(),
+            ...List.generate(5, (index) => groupeItemBuilder())
+          ],
         ),
       )),
     );
@@ -59,85 +64,98 @@ class _GroupeState extends State<Groupe> {
   }
 
   Widget groupeItemBuilder() {
-    return Container(
-        padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-        margin: const EdgeInsets.only(top: 20),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15),
-            gradient: LinearGradient(colors: [
-              MyColors().activeColor.withOpacity(0.6),
-              MyColors().activeColor.withOpacity(0.9)
-            ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Expanded(
-                  child: Text("Flutter Dev",
-                      textAlign: TextAlign.left,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          fontFamily: "Ubuntu",
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                          fontSize: 22)),
-                ),
-                IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      CupertinoIcons.bell_fill,
-                      color: Colors.white,
-                    ))
-              ],
-            ),
-            const SizedBox(height: 20),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Expanded(
-                    child: Column(
-                  children: [
-                    ImageStack(
-                      imageList: images,
-                      imageRadius: 45,
-                      imageCount: 3,
-                      imageBorderWidth: 3,
-                      totalCount: 4,
-                      backgroundColor: Colors.white,
-                      imageBorderColor: Colors.white,
-                      extraCountBorderColor: Colors.white,
-                      extraCountTextStyle: TextStyle(
-                          color: MyColors().greyColor,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 18),
-                    )
-                  ],
-                )),
-                // Container(
-                //   width: 100,
-                //   height: 100,
-                //   decoration: BoxDecoration(
-                //       borderRadius: BorderRadius.circular(10),
-                //       image: const DecorationImage(
-                //           image: AssetImage('assets/images/user.png'),
-                //           fit: BoxFit.cover)),
-                // ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10),
-                  child: Chip(
-                      backgroundColor: Colors.white,
-                      label: Text(Random().nextInt(100).toString(),
+    Color color = generateRandomColor3();
+    return InkWell(
+      onTap: () {
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => const MessageBox()));
+      },
+      child: Container(
+          padding: const EdgeInsets.fromLTRB(15, 5, 15, 15),
+          margin: const EdgeInsets.only(top: 20),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              gradient: LinearGradient(
+                  colors: [color.withOpacity(0.6), color.withOpacity(0.9)],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter)),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Expanded(
+                    child: Text("Flutter Dev",
+                        textAlign: TextAlign.left,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontFamily: "Ubuntu",
+                            fontWeight: FontWeight.w600,
+                            fontSize: 22)),
+                  ),
+                  IconButton(
+                      onPressed: () {},
+                      icon: const Icon(
+                        CupertinoIcons.bell_fill,
+                      ))
+                ],
+              ),
+              const SizedBox(height: 20),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Expanded(
+                      child: Column(
+                    children: [
+                      Text(lorem(paragraphs: 2),
                           textAlign: TextAlign.left,
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
+                          maxLines: 2,
+                          style: const TextStyle(
                               fontFamily: "Ubuntu",
-                              fontWeight: FontWeight.w600,
-                              color: MyColors().greyColor))),
-                )
-              ],
-            )
-          ],
-        ));
+                              fontWeight: FontWeight.w500,
+                              fontSize: 15)),
+                      const SizedBox(height: 15),
+                      ImageStack(
+                        imageList: images,
+                        imageRadius: 45,
+                        imageCount: 3,
+                        imageBorderWidth: 3,
+                        imageSource: ImageSource.Asset,
+                        totalCount: 10,
+                        backgroundColor: Colors.white,
+                        imageBorderColor: Colors.white,
+                        extraCountBorderColor: Colors.white,
+                        extraCountTextStyle: const TextStyle(
+                            fontWeight: FontWeight.w600, fontSize: 18),
+                      )
+                    ],
+                  )),
+                  const SizedBox(width: 50),
+                  // Container(
+                  //   width: 100,
+                  //   height: 100,
+                  //   decoration: BoxDecoration(
+                  //       borderRadius: BorderRadius.circular(10),
+                  //       image: const DecorationImage(
+                  //           image: AssetImage('assets/images/user.png'),
+                  //           fit: BoxFit.cover)),
+                  // ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: Chip(
+                        backgroundColor: Colors.white,
+                        label: Text(Random().nextInt(100).toString(),
+                            textAlign: TextAlign.left,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                                fontFamily: "Ubuntu",
+                                fontWeight: FontWeight.w600))),
+                  )
+                ],
+              )
+            ],
+          )),
+    );
   }
 }

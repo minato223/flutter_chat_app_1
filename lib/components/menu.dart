@@ -22,9 +22,9 @@ class _MenuState extends State<Menu> {
     MyPage(
         id: 0,
         icon: CupertinoIcons.bubble_left_bubble_right,
-        page: const Groupe()),
-    MyPage(id: 1, icon: CupertinoIcons.phone, page: const Setting()),
-    MyPage(id: 2, icon: CupertinoIcons.camera, page: const Message()),
+        page: const Message()),
+    MyPage(id: 1, icon: CupertinoIcons.person_2_alt, page: const Groupe()),
+    MyPage(id: 2, icon: CupertinoIcons.camera, page: const Setting()),
     MyPage(id: 3, icon: CupertinoIcons.settings, page: const Setting())
   ];
   @override
