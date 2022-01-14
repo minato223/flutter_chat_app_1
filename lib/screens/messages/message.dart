@@ -1,3 +1,4 @@
+import 'package:chat_app_1/screens/messages/message_box.dart';
 import 'package:chat_app_1/services/constant.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -125,57 +126,63 @@ class _MessageState extends State<Message> {
   }
 
   Widget messageTile() {
-    return Container(
-      height: 70,
-      margin: const EdgeInsets.only(bottom: 20),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: 70,
-            margin: const EdgeInsets.only(right: 10),
-            decoration: BoxDecoration(
-              border: Border.all(color: MyColors().activeColor, width: 2),
-              shape: BoxShape.circle,
-            ),
-            padding: const EdgeInsets.all(2),
-            child: Container(
-                decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: AssetImage('assets/images/user.png')))),
-          ),
-          Expanded(
-              child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text("Kurosaki",
-                  style: TextStyle(
-                      fontFamily: "Ubuntu",
-                      fontWeight: FontWeight.w600,
-                      fontSize: 17)),
-              const SizedBox(height: 7),
-              Expanded(
-                child: Text(lorem(paragraphs: 2),
-                    maxLines: 2,
-                    style: TextStyle(
-                        overflow: TextOverflow.ellipsis,
-                        fontFamily: "Ubuntu",
-                        height: 1.3,
-                        color: MyColors().greyColor,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 15)),
+    return InkWell(
+      onTap: () {
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => const MessageBox()));
+      },
+      child: Container(
+        height: 70,
+        margin: const EdgeInsets.only(bottom: 20),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: 70,
+              margin: const EdgeInsets.only(right: 10),
+              decoration: BoxDecoration(
+                border: Border.all(color: MyColors().activeColor, width: 2),
+                shape: BoxShape.circle,
               ),
-            ],
-          )),
-          Text("23min",
-              style: TextStyle(
-                  fontFamily: "Ubuntu",
-                  fontWeight: FontWeight.w600,
-                  color: MyColors().activeColor,
-                  fontSize: 14)),
-        ],
+              padding: const EdgeInsets.all(2),
+              child: Container(
+                  decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: AssetImage('assets/images/user.png')))),
+            ),
+            Expanded(
+                child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(lorem(words: 1),
+                    style: const TextStyle(
+                        fontFamily: "Ubuntu",
+                        fontWeight: FontWeight.w600,
+                        fontSize: 17)),
+                const SizedBox(height: 7),
+                Expanded(
+                  child: Text(lorem(paragraphs: 2),
+                      maxLines: 2,
+                      style: TextStyle(
+                          overflow: TextOverflow.ellipsis,
+                          fontFamily: "Ubuntu",
+                          height: 1.3,
+                          color: MyColors().greyColor,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 15)),
+                ),
+              ],
+            )),
+            Text("23min",
+                style: TextStyle(
+                    fontFamily: "Ubuntu",
+                    fontWeight: FontWeight.w600,
+                    color: MyColors().activeColor,
+                    fontSize: 14)),
+          ],
+        ),
       ),
     );
   }
