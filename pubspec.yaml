@@ -41,6 +41,7 @@ dependencies:
   chewie:
   just_audio: ^0.9.18
   record:
+  image_stack: 
   # wechat_camera_picker: ^2.6.3
   fluent_ui:
 dev_dependencies:

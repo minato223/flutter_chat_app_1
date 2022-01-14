@@ -48,7 +48,7 @@ class _MessageBoxState extends State<MessageBox>
         parent: _animationController,
         curve: Curves.ease,
         reverseCurve: Curves.ease);
-    _animation = Tween<double>(begin: 200, end: 0).animate(_curveAnimation)
+    _animation = Tween<double>(begin: 60, end: 0).animate(_curveAnimation)
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
           setState(() {
@@ -291,7 +291,7 @@ class _MessageBoxState extends State<MessageBox>
           children: [
             const Expanded(child: SizedBox()),
             Transform.translate(
-              offset: Offset(0, _animation.value),
+              offset: Offset(_animation.value, 0),
               child: Opacity(
                 opacity: _animationController.value,
                 child: Container(

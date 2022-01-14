@@ -1,7 +1,8 @@
 // ignore_for_file: must_call_super
 
 import 'package:chat_app_1/models/page.dart';
-import 'package:chat_app_1/screens/setting.dart';
+import 'package:chat_app_1/screens/groups/groupe.dart';
+import 'package:chat_app_1/screens/settings/setting.dart';
 import 'package:chat_app_1/services/constant.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,10 @@ class _MenuState extends State<Menu> {
   int _currentPage = 0;
   late PageController _controller;
   final List<MyPage> _pages = [
-    MyPage(id: 0, icon: CupertinoIcons.chat_bubble_text, page: const Message()),
+    MyPage(
+        id: 0,
+        icon: CupertinoIcons.bubble_left_bubble_right,
+        page: const Groupe()),
     MyPage(id: 1, icon: CupertinoIcons.phone, page: const Setting()),
     MyPage(id: 2, icon: CupertinoIcons.camera, page: const Message()),
     MyPage(id: 3, icon: CupertinoIcons.settings, page: const Setting())
