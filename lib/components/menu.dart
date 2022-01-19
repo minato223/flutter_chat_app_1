@@ -5,7 +5,7 @@ import 'package:chat_app_1/screens/setting.dart';
 import 'package:chat_app_1/services/constant.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:chat_app_1/screens/message.dart';
+import 'package:chat_app_1/screens/messages/message.dart';
 
 class Menu extends StatefulWidget {
   const Menu({Key? key}) : super(key: key);
