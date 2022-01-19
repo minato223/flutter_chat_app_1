@@ -1,6 +1,7 @@
 // ignore_for_file: must_call_super
 
 import 'package:chat_app_1/models/page.dart';
+import 'package:chat_app_1/screens/camera/camera.dart';
 import 'package:chat_app_1/screens/groups/groupe.dart';
 import 'package:chat_app_1/screens/settings/setting.dart';
 import 'package:chat_app_1/services/constant.dart';
@@ -24,7 +25,7 @@ class _MenuState extends State<Menu> {
         icon: CupertinoIcons.bubble_left_bubble_right,
         page: const Message()),
     MyPage(id: 1, icon: CupertinoIcons.person_2_alt, page: const Groupe()),
-    MyPage(id: 2, icon: CupertinoIcons.camera, page: const Setting()),
+    MyPage(id: 2, icon: CupertinoIcons.camera, page: const Camera()),
     MyPage(id: 3, icon: CupertinoIcons.settings, page: const Setting())
   ];
   @override

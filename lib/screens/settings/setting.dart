@@ -61,19 +61,6 @@ class _SettingState extends State<Setting> {
     );
   }
 
-  Widget profil() {
-    return Card(
-      child: Column(
-        children: [
-          CircleAvatar(
-            backgroundImage: AssetImage('assets/images/user.png'),
-            radius: 80,
-          )
-        ],
-      ),
-    );
-  }
-
   Widget sectionItemTile(
       {String text = "Edit Profile", IconData icon = CupertinoIcons.pen}) {
     return InkWell(

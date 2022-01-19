@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:wechat_camera_picker/wechat_camera_picker.dart';
 
 class Camera extends StatefulWidget {
@@ -17,7 +18,7 @@ class _CameraState extends State<Camera> {
   Future<void> pick(BuildContext context) async {
     final Size size = MediaQuery.of(context).size;
     final double scale = MediaQuery.of(context).devicePixelRatio;
-    print(scale);
+    print("scale $scale");
     try {
       final AssetEntity? _entity = await CameraPicker.pickFromCamera(
         context,
@@ -39,6 +40,14 @@ class _CameraState extends State<Camera> {
     } catch (e) {
       rethrow;
     }
+  }
+
+  @override
+  void initState() {
+    SchedulerBinding.instance?.addPostFrameCallback((_) {
+      pick(context);
+    });
+    super.initState();
   }
 
   @override
