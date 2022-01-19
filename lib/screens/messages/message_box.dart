@@ -1,8 +1,14 @@
+// ignore_for_file: unnecessary_new, avoid_print
+
+import 'dart:io';
+
+import 'package:chat_app_1/http/document.dart';
 import 'package:chat_app_1/services/constant.dart';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_lorem/flutter_lorem.dart';
+import 'package:images_picker/images_picker.dart';
 import 'package:video_player/video_player.dart';
 
 class MessageBox extends StatefulWidget {
@@ -48,7 +54,7 @@ class _MessageBoxState extends State<MessageBox>
         parent: _animationController,
         curve: Curves.ease,
         reverseCurve: Curves.ease);
-    _animation = Tween<double>(begin: 200, end: 0).animate(_curveAnimation)
+    _animation = Tween<double>(begin: 60, end: 0).animate(_curveAnimation)
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
           setState(() {
@@ -63,12 +69,25 @@ class _MessageBoxState extends State<MessageBox>
       });
   }
 
+  List<Media>? _medias = [];
+
+  Future getImage() async {
+    List<Media>? res = await ImagesPicker.pick(
+      pickType: PickType.image,
+      count: 3, // record video max time
+    );
+    setState(() {
+      _medias = res;
+    });
+  }
+
   @override
   void dispose() {
     super.dispose();
     _chewieController.dispose();
   }
 
+  final List<Map<String, dynamic>> _messages = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,9 +104,32 @@ class _MessageBoxState extends State<MessageBox>
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: ListView(
                 children: [
+                  _medias!.isNotEmpty
+                      ? Column(
+                          children: [
+                            Image.file(File(_medias![0].path)),
+                            TextButton(
+                                onPressed: () async {
+                                  Document()
+                                      .uploadImage(File(_medias![0].path),
+                                          Urls().baseUrl + Urls().documentUrl)
+                                      .then((value) => print(value));
+                                },
+                                child: const Text("Upload",
+                                    style: TextStyle(
+                                        fontFamily: "Ubuntu",
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.w500)))
+                          ],
+                        )
+                      : const SizedBox(),
                   datePopup(),
-                  ...List.generate(
-                      5, (index) => message(sender: index % 2 == 0))
+                  ..._messages
+                      .map((messageObject) => message(
+                          sender: true, message: messageObject['contenu']))
+                      .toList()
+                  // ...List.generate(
+                  //     1, (index) => message(sender: index % 2 == 0))
                 ],
               ),
             )),
@@ -154,8 +196,10 @@ class _MessageBoxState extends State<MessageBox>
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     IconButton(
-                        onPressed: () {},
-                        icon: Icon(CupertinoIcons.smiley,
+                        onPressed: () {
+                          getImage().then((value) => null);
+                        },
+                        icon: Icon(CupertinoIcons.camera_on_rectangle,
                             color: MyColors().greyColor, size: 24)),
                     const Expanded(
                         child: TextField(
@@ -216,46 +260,48 @@ class _MessageBoxState extends State<MessageBox>
     );
   }
 
-  Widget message({bool sender = true}) {
+  Widget message({bool sender = true, String message = ""}) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 5),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: sender
-            ? messageWidgets(sender: sender)
-            : messageWidgets(sender: sender).reversed.toList(),
+            ? messageWidgets(sender: sender, message: message)
+            : messageWidgets(sender: sender, message: message)
+                .reversed
+                .toList(),
       ),
     );
   }
 
-  List<Widget> messageWidgets({bool sender = true}) {
+  List<Widget> messageWidgets({bool sender = true, String message = ""}) {
     return [
       Expanded(flex: 3, child: Container(height: 60)),
       Expanded(
           flex: 17,
           child: messageContent(sender: sender, messages: [
-            Text(lorem(paragraphs: 1),
+            Text(message,
                 style: TextStyle(
                     fontFamily: "Ubuntu",
                     height: 1.5,
                     color: sender ? Colors.white : null,
                     fontWeight: FontWeight.w400,
                     fontSize: 16)),
-            const SizedBox(height: 7),
-            Container(
-              height: 200,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  image: const DecorationImage(
-                      fit: BoxFit.cover,
-                      image: AssetImage("assets/images/image.png"))),
-            ),
-            const SizedBox(height: 7),
-            FittedBox(
-              child: Chewie(
-                controller: _chewieController,
-              ),
-            ),
+            // const SizedBox(height: 7),
+            // Container(
+            //   height: 200,
+            //   decoration: BoxDecoration(
+            //       borderRadius: BorderRadius.circular(10),
+            //       image: const DecorationImage(
+            //           fit: BoxFit.cover,
+            //           image: AssetImage("assets/images/image.png"))),
+            // ),
+            // const SizedBox(height: 7),
+            // FittedBox(
+            //   child: Chewie(
+            //     controller: _chewieController,
+            //   ),
+            // ),
           ])),
       const Expanded(
           flex: 3,
@@ -269,7 +315,7 @@ class _MessageBoxState extends State<MessageBox>
 
   Widget messageContent({bool sender = true, List<Widget>? messages}) {
     return Container(
-      alignment: Alignment.centerRight,
+      alignment: Alignment.centerLeft,
       padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 10),
       margin: sender
           ? const EdgeInsets.fromLTRB(0, 10, 5, 0)
@@ -291,7 +337,7 @@ class _MessageBoxState extends State<MessageBox>
           children: [
             const Expanded(child: SizedBox()),
             Transform.translate(
-              offset: Offset(0, _animation.value),
+              offset: Offset(_animation.value, 0),
               child: Opacity(
                 opacity: _animationController.value,
                 child: Container(

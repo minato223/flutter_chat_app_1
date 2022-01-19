@@ -41,8 +41,11 @@ dependencies:
   chewie:
   just_audio: ^0.9.18
   record:
-  # wechat_camera_picker: ^2.6.3
-  fluent_ui:
+  image_stack: 
+  images_picker: ^1.2.10
+  http:
+  google_sign_in: ^5.2.3
+  wechat_camera_picker:
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -1,3 +1,4 @@
+import 'package:chat_app_1/components/shared.dart';
 import 'package:chat_app_1/screens/messages/message_box.dart';
 import 'package:chat_app_1/services/constant.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,7 +18,7 @@ class _MessageState extends State<Message> {
     return Scaffold(
       body: SafeArea(
           child: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+        padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
         child: ListView(
           children: [
             header(),
@@ -45,47 +46,13 @@ class _MessageState extends State<Message> {
             IconButton(
                 onPressed: () {},
                 icon: Icon(
-                  CupertinoIcons.rectangle_paperclip,
-                  color: MyColors().activeColor,
+                  CupertinoIcons.location,
+                  color: MyColors().greyColor,
                 ))
           ],
         ),
         const SizedBox(height: 10)
       ],
-    );
-  }
-
-  Widget searchBar() {
-    return Container(
-      height: 50,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(60),
-        color: MyColors().searchBarColor,
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 15, right: 5),
-            child: Icon(CupertinoIcons.search,
-                color: MyColors().greyColor, size: 22),
-          ),
-          const Expanded(
-              child: TextField(
-            style: TextStyle(
-                fontFamily: "Ubuntu",
-                fontSize: 17,
-                fontWeight: FontWeight.w500),
-            decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: "Search",
-                hintStyle: TextStyle(
-                    fontFamily: "Ubuntu",
-                    fontSize: 17,
-                    fontWeight: FontWeight.w500)),
-          ))
-        ],
-      ),
     );
   }
 
